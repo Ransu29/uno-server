@@ -36,7 +36,7 @@ export class GameEngine {
     if (!topCard) throw new Error('Deck empty during init');
 
     // Rule: Cannot start with Wild Draw 4. Reshuffle until valid.
-    while (topCard.type === CardType.WILD_DRAW_FOUR) {
+    while (topCard.type === CardType.WILD_DRAW_FOUR || topCard.type === CardType.WILD || topCard.type === CardType.WILD_SHUFFLE_HANDS) {
       state.deck.push(topCard);
       state.deck = DeckFactory.shuffle(state.deck);
       topCard = state.deck.pop()!;
