@@ -1,0 +1,10 @@
+services:
+  - type: web
+    name: uno-backend
+    env: docker
+    plan: free
+    envVars:
+      - key: PORT
+        value: 10000
+      - key: CORS_ORIGIN
+        value: "*" # We will lock this down later
