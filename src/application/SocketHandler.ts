@@ -1,5 +1,5 @@
 import { Server, Socket } from 'socket.io';
-import { v4 as uuidv4 } from 'uuid';
+import { randomUUID } from 'crypto'; // <--- ADD THIS (Native Node Module)
 import { GameEngine } from '../domain/GameEngine';
 import { GameStore } from '../infrastructure/GameStore';
 import { GameState, GameStatus } from '../domain/types';
@@ -49,8 +49,8 @@ export class SocketHandler {
       socket.on('create_room', (data, callback) => {
         try {
           // Normalization: Force Uppercase for Room IDs
-          const roomId = uuidv4().slice(0, 6).toUpperCase();
-          const playerId = uuidv4();
+          const roomId = randomUUID().slice(0, 6).toUpperCase();
+          const playerId = randomUUID();
           const playerName = data.playerName || 'Host';
 
           const player = {
@@ -107,7 +107,7 @@ export class SocketHandler {
             if (game.status !== GameStatus.WAITING) throw new Error('Game already in progress');
             if (game.players.length >= 10) throw new Error('Room is full');
 
-            const newPlayerId = uuidv4();
+            const newPlayerId = randomUUID();
             const newPlayer = {
               id: newPlayerId,
               socketId: socket.id,
